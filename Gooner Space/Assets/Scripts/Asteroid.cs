@@ -4,76 +4,21 @@ using UnityEngine;
 
 public class asteroid : MonoBehaviour
 {
-    public List<string> mineralTypes = new List<string> { "Iron", "Gold", "Diamond", "Copper" };
-    public string selectedMineral;
+    public int points = 0;
 
-    public int basePoints;
-    public int sizePoints;
-    public int totalPoints;
-
-    private GameManager gameManager;
-    // Start is called before the first frame update
-    void Start()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        int randomIndex = Random.Range(0, mineralTypes.Count);
-        selectedMineral = mineralTypes[randomIndex];
+        Debug.Log("Collision detected with: " + other.gameObject.name);
 
-        basePoints = GetPointsForMineral(selectedMineral);
-
-        float size = transform.localScale.x;
-        sizePoints = Mathf.RoundToInt(size * 10);
-
-        totalPoints = basePoints + sizePoints;
-
-        Renderer renderer = GetComponent<Renderer>();
-        switch (selectedMineral)
+        if (other.gameObject.CompareTag("Player"))
         {
-            case "Iron":
-                renderer.material.color = Color.grey;
-                break;
+            Debug.Log("Player collided with asteroid!");
 
-            case "Gold":
-                renderer.material.color = Color.yellow;
-                break;
+            GameManager.instance.AddPoints(points);
 
-            case "Diamond":
-                renderer.material.color = Color.blue;
-                break;
-
-            case "Copper":
-                renderer.material.color = Color.red;
-                break;
-        }
-
-    }
-
-    int GetPointsForMineral(string mineral)
-    {
-        switch (mineral)
-        {
-            default: // "Iron"
-                return 20;
-            case "Gold":
-                return 100;
-            case "Diamond":
-                return 150;
-            case "Copper":
-                return 50;
-        }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-
-            if (gameManager != null)
-            {
-                gameManager.AddPoints(totalPoints);
-            }
-
-            Destroy(gameObject);
-
+            AsteroidSpawner.ManageAsteroids();
+            //Move this astroid
+            //Destroy(gameObject);
         }
     }
 }
