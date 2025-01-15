@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class shipControl : MonoBehaviour
 {
-    Rigidbody2D rb;
-    private float horizontal;
-    private float vertical;
-    public float speed = 5.0f;
+    public TMP_InputField inputX;
+    public TMP_InputField inputY;
+    public float moveSpeed = 5f;
+
+    private Rigidbody2D rb;
+    private Vector2 targetVector;
+    private Vector2 startPosition;
+    private bool isMoving = false;
 
 
     void Start()
@@ -15,19 +20,46 @@ public class shipControl : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    public void ApplyVector()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
-        if (horizontal != 0 || vertical != 0)
+        if (float.TryParse(inputX.text, out float x) && float.TryParse(inputY.text, out float y))
         {
-            float angle = Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            targetVector = new Vector2(x, y);
+            startPosition = rb.position;
+            isMoving = true;
+
+            RotatePlayerToFaceDirection(targetVector);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid input. Please enter numeric values.");
         }
     }
+
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontal * speed * Time.deltaTime, vertical * speed * Time.deltaTime);
+        if (isMoving)
+        {
+            float distanceTraveled = Vector2.Distance(startPosition, rb.position);
+
+            if (distanceTraveled >= targetVector.magnitude)
+            {
+                isMoving = false;
+                rb.velocity = Vector2.zero;
+                return;
+            }
+
+            Vector2 direction = targetVector.normalized;
+            rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+        }
+    }
+    void RotatePlayerToFaceDirection(Vector2 direction)
+    {
+        if (direction != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            rb.rotation = angle - 90f;
+        }
+
     }
 }
