@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class shipControl : MonoBehaviour
 {
-    Rigidbody2D rb;
-    private float horizontal;
-    private float vertical;
-    public float speed = 5.0f;
+    public TMP_InputField inputX;
+    public TMP_InputField inputY;
+    public float moveSpeed = 5f;
+
+    private Rigidbody2D rb;
+    private Vector2 movement;
 
 
     void Start()
@@ -15,19 +18,15 @@ public class shipControl : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    public void ApplyVector()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
+        float x = float.Parse(inputX.text);
+        float y = float.Parse(inputY.text);
 
-        if (horizontal != 0 || vertical != 0)
-        {
-            float angle = Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
+        movement = new Vector2(x, y);
     }
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontal * speed * Time.deltaTime, vertical * speed * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 }
