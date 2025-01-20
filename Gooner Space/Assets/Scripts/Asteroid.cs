@@ -8,15 +8,18 @@ public class asteroid : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Collision detected with: " + other.gameObject.name);
+        //Debug.Log("Collision detected with: " + other.gameObject.name);
 
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player collided with asteroid!");
+            //Debug.Log("Player collided with asteroid!");
 
             GameManager.instance.AddPoints(points);
 
-            AsteroidSpawner.ManageAsteroids();
+            Vector2 newPosition = new Vector2(Random.Range(-50f, 50f), Random.Range(-50f, 50f));
+            transform.position = newPosition;
+
+            //AsteroidSpawner.ManageAsteroids();
             //Move this astroid
             //Destroy(gameObject);
         }

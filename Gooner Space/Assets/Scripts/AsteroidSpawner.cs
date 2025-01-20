@@ -5,8 +5,8 @@ using UnityEngine;
 public class AsteroidSpawner : MonoBehaviour
 {
     public GameObject asteroidPrefab;
-    public int numberOfAsteroids = 100;
-    public float spawnRadius = 50f; // Outer spawn radius
+    public int numberOfAsteroids = 50;
+    public float spawnRadius = 20f; // Outer spawn radius
     public float innerBufferRadius = 10f; // Inner buffer zone where no asteroids are spawned
     public Transform playerTransform;
     public List<string> mineralTypes = new List<string> { "Iron", "Gold", "Diamond", "Copper" };
@@ -59,34 +59,24 @@ public class AsteroidSpawner : MonoBehaviour
 
     void ManageAsteroids()
     {
-        // Destroy asteroids outside the outer spawn radius
-        for (int i = activeAsteroids.Count - 1; i >= 0; i--)
+        foreach (GameObject asteroid in activeAsteroids)
         {
-            GameObject asteroid = activeAsteroids[i];
             float distance = Vector2.Distance(asteroid.transform.position, playerTransform.position);
+
+            // If the asteroid is outside the spawn radius, relocate it
             if (distance > spawnRadius)
             {
-                Destroy(asteroid);
-                activeAsteroids.RemoveAt(i);
+                Vector2 newPosition;
+                do
+                {
+                    newPosition = Random.insideUnitCircle * spawnRadius;
+                    newPosition += (Vector2)playerTransform.position; // Offset by player's position
+                }
+                while (IsPositionInInnerBuffer(newPosition)); // Ensure it's outside the inner buffer
+
+                asteroid.transform.position = newPosition;
+
             }
-        }
-
-        // Spawn new asteroids to maintain the target number, ensuring they are outside the inner buffer
-        while (activeAsteroids.Count < numberOfAsteroids)
-        {
-            Vector2 spawnPosition;
-            do
-            {
-                spawnPosition = Random.insideUnitCircle * spawnRadius;
-                spawnPosition += (Vector2)playerTransform.position; // Offset by player's position
-            }
-            while (IsPositionInInnerBuffer(spawnPosition)); // Ensure it's outside the inner buffer
-
-            GameObject newAsteroid = Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity);
-            newAsteroid.transform.localScale = Vector3.one * Random.Range(0.5f, 2f); // Random scale
-            newAsteroid.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-
-            activeAsteroids.Add(newAsteroid);
         }
     }
 
