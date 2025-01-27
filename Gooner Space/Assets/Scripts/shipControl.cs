@@ -8,6 +8,7 @@ public class shipControl : MonoBehaviour
     public TMP_InputField inputX;
     public TMP_InputField inputY;
     public float moveSpeed = 5f;
+    public float maxVectorLength = 10f;
 
     private Rigidbody2D rb;
     private Vector2 targetVector;
@@ -24,6 +25,13 @@ public class shipControl : MonoBehaviour
     {
         if (float.TryParse(inputX.text, out float x) && float.TryParse(inputY.text, out float y))
         {
+            Vector2 inputVector = new Vector2(x, y);
+
+            if (inputVector.magnitude > maxVectorLength)
+            {
+                inputVector = inputVector.normalized * maxVectorLength; 
+                Debug.Log($"Input vector exceeded max length. Clamped to: {inputVector}");
+            }
             targetVector = new Vector2(x, y);
             startPosition = rb.position;
             isMoving = true;
@@ -40,17 +48,28 @@ public class shipControl : MonoBehaviour
     {
         if (isMoving)
         {
-            float distanceTraveled = Vector2.Distance(startPosition, rb.position);
+            float vectorLength = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
 
-            if (distanceTraveled >= targetVector.magnitude)
+            if (maxVectorLength >= vectorLength)
             {
-                isMoving = false;
-                rb.velocity = Vector2.zero;
-                return;
-            }
+                float distanceTraveled = Vector2.Distance(startPosition, rb.position);
 
-            Vector2 direction = targetVector.normalized;
-            rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+                if (distanceTraveled >= targetVector.magnitude)
+                {
+                    isMoving = false;
+                    rb.velocity = Vector2.zero;
+                    return;
+                }
+
+                Vector2 direction = targetVector.normalized;
+                rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+            }
+            else
+            {
+                Debug.LogWarning("Target vector length exceeds the maximum allowed length.");
+                isMoving = false;
+            }
+                
         }
     }
     void RotatePlayerToFaceDirection(Vector2 direction)
