@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 7558993807931410293}
   - component: {fileID: 252177868955531627}
   - component: {fileID: 6084416609484513279}
+  - component: {fileID: 2630044315253273367}
   m_Layer: 0
   m_Name: hitbox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,6 +178,26 @@ MonoBehaviour:
   inputX: {fileID: 0}
   inputY: {fileID: 0}
   moveSpeed: 5
+  maxVectorLength: 10
+  xytext: {fileID: 0}
+  fuelImage: {fileID: 0}
+  fuelPercentage: {fileID: 0}
+  maxFuelLength: 100
+  remainingFuelLength: 100
+--- !u!114 &2630044315253273367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8931725353373630174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e606070964567384b83c1cdce482ab35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShopPlanet: {fileID: 0}
+  shopPlanetText: {fileID: 0}
 --- !u!1 &9170066410766406959
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +209,7 @@ GameObject:
   - component: {fileID: 8202990203920217145}
   m_Layer: 0
   m_Name: ship
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
