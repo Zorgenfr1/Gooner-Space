@@ -4,21 +4,9 @@ using UnityEngine;
 
 public class asteroid : MonoBehaviour
 {
-    public enum AsteroidSize { Small, Medium, Large }
-
     public string mineralType;
-    public AsteroidSize sizeCategory;
+    public float size;
     public int points = 0;
-
-    public void Initialize(string mineral, float size, int basePoints)
-    {
-        mineralType = mineral;
-        points = (int)(size * basePoints);
-
-        if (size < 0.8f) sizeCategory = AsteroidSize.Small;
-        else if (size < 1.5f) sizeCategory = AsteroidSize.Medium;
-        else sizeCategory = AsteroidSize.Large;
-    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -29,6 +17,8 @@ public class asteroid : MonoBehaviour
             //Debug.Log("Player collided with asteroid!");
 
             GameManager.instance.AddPoints(points);
+            GameManager.instance.SetAsteroidType(mineralType);
+            GameManager.instance.ControlCapacity(size);
 
             Vector2 newPosition = new Vector2(Random.Range(-50f, 50f), Random.Range(-50f, 50f));
             transform.position = newPosition;
