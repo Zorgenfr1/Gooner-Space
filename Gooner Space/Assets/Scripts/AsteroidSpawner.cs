@@ -51,7 +51,8 @@ public class AsteroidSpawner : MonoBehaviour
             selectedMineral = mineralTypes[randomIndex];
             spriteRenderer.sprite = astroidSprites[randomIndex];
 
-            newAsteroid.GetComponent<asteroid>().points = (int)(size * mineralPoints[randomIndex]);
+            asteroid asteroidScript = newAsteroid.GetComponent<asteroid>();
+            asteroidScript.Initialize(selectedMineral, size, mineralPoints[randomIndex]);
 
             activeAsteroids.Add(newAsteroid);
         }

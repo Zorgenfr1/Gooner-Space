@@ -4,7 +4,21 @@ using UnityEngine;
 
 public class asteroid : MonoBehaviour
 {
+    public enum AsteroidSize { Small, Medium, Large }
+
+    public string mineralType;
+    public AsteroidSize sizeCategory;
     public int points = 0;
+
+    public void Initialize(string mineral, float size, int basePoints)
+    {
+        mineralType = mineral;
+        points = (int)(size * basePoints);
+
+        if (size < 0.8f) sizeCategory = AsteroidSize.Small;
+        else if (size < 1.5f) sizeCategory = AsteroidSize.Medium;
+        else sizeCategory = AsteroidSize.Large;
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {

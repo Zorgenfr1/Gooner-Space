@@ -12,6 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/fluid test.unity
     guid: 88870ec16bcf2bf4a812816b801d6da1
   - enabled: 1
-    path: Assets/Scenes/FrodeMaster.unity
+    path: Assets/Scenes/shopMan.unity
     guid: 540911dcd08378c44942e0c5012ca0a6
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
