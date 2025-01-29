@@ -31,7 +31,6 @@ public class shipControl : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         remainingFuelLength = maxFuelLength;
-        info.text = "";
     }
 
     public void ApplyVector()
