@@ -88,7 +88,7 @@ public class shipControl : MonoBehaviour
                 if (distanceTraveled >= targetVector.magnitude)
                 {
                     isMoving = false;
-                    rb.velocity = Vector2.zero;
+                    rb.linearVelocity = Vector2.zero;
                     return;
                 }
 
