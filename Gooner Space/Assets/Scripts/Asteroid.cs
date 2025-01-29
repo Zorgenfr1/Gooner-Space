@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class asteroid : MonoBehaviour
 {
+    public string mineralType;
+    public float size;
     public int points = 0;
 
     void OnTriggerEnter2D(Collider2D other)
@@ -15,6 +17,8 @@ public class asteroid : MonoBehaviour
             //Debug.Log("Player collided with asteroid!");
 
             GameManager.instance.AddPoints(points);
+            GameManager.instance.SetAsteroidType(mineralType);
+            GameManager.instance.ControlCapacity(size);
 
             Vector2 newPosition = new Vector2(Random.Range(-50f, 50f), Random.Range(-50f, 50f));
             transform.position = newPosition;

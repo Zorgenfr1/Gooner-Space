@@ -16,8 +16,7 @@ public class shipControl : MonoBehaviour
     private Vector2 startPosition;
     private bool isMoving = false;
 
-    public TMP_Text numbers;
-    public TMP_Text lengthText;
+    public TMP_Text info;
 
     public TMP_Text xytext;
     private bool isFirstInput = true;
@@ -32,28 +31,29 @@ public class shipControl : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         remainingFuelLength = maxFuelLength;
-        numbers.text = "";
-        lengthText.text = "";
     }
 
     public void ApplyVector()
     {
         if (float.TryParse(inputX.text, out float x) && float.TryParse(inputY.text, out float y))
         {
-            numbers.text = "";
-            lengthText.text = "";
+            info.text = "";
 
             Vector2 inputVector = new Vector2(x, y);
 
             if (inputVector.magnitude > maxVectorLength)
             {
                 inputVector = inputVector.normalized * maxVectorLength;
-                lengthText.text = "Input vector exceeded max length";
+                info.text = "Input vector exceeded max length";
             }
-            targetVector = new Vector2(x, y);
-            startPosition = rb.position;
-            isMoving = true;
-            logDistance = true;
+
+            else if (inputVector.magnitude <= maxVectorLength)
+            {
+                targetVector = new Vector2(x, y);
+                startPosition = rb.position;
+                isMoving = true;
+                logDistance = true;
+            }
 
             if (isFirstInput)
             {
@@ -65,7 +65,7 @@ public class shipControl : MonoBehaviour
         }
         else
         {
-            numbers.text = "You can only enter numbers";
+            info.text = "You can only enter numbers";
         }
     }
 
@@ -75,7 +75,7 @@ public class shipControl : MonoBehaviour
         {
             float vectorLength = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
 
-           if (logDistance == true)
+            if (logDistance == true)
             {
                 logDistance = false;
                 UpdateUi(vectorLength);
@@ -88,7 +88,7 @@ public class shipControl : MonoBehaviour
                 if (distanceTraveled >= targetVector.magnitude)
                 {
                     isMoving = false;
-                    rb.velocity = Vector2.zero;
+                    rb.linearVelocity = Vector2.zero;
                     return;
                 }
 
