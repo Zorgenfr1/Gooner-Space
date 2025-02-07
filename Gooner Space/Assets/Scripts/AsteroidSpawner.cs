@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 public class AsteroidSpawner : MonoBehaviour
 {
@@ -9,13 +10,13 @@ public class AsteroidSpawner : MonoBehaviour
     public float spawnRadius = 20f; // Outer spawn radius
     public float innerBufferRadius = 10f; // Inner buffer zone where no asteroids are spawned
     public Transform playerTransform;
-    public List<string> mineralTypes = new List<string> { "Iron", "Gold", "Diamond", "Copper" };
     public Sprite[] astroidSprites;
     public int[] mineralPoints = { 20, 100, 150, 50 };
 
     public string selectedMineral;
 
     private List<GameObject> activeAsteroids = new List<GameObject>();
+
 
     void Start()
     {
@@ -47,12 +48,14 @@ public class AsteroidSpawner : MonoBehaviour
 
             SpriteRenderer spriteRenderer = newAsteroid.GetComponent<SpriteRenderer>();
 
-            int randomIndex = Random.Range(0, mineralTypes.Count);
-            selectedMineral = mineralTypes[randomIndex];
-            spriteRenderer.sprite = astroidSprites[randomIndex];
+            MineralType selectedMineral = (MineralType)Random.Range(0, System.Enum.GetValues(typeof(MineralType)).Length);
+
+            spriteRenderer.sprite = astroidSprites[(int)selectedMineral];
 
             asteroid asteroidScript = newAsteroid.GetComponent<asteroid>();
-            newAsteroid.GetComponent<asteroid>().points = (int)(size * mineralPoints[randomIndex]);
+            asteroidScript.points = (int)(size * mineralPoints[(int)selectedMineral]);  
+            asteroidScript.mineralType = selectedMineral;  
+            asteroidScript.size = size;
 
             activeAsteroids.Add(newAsteroid);
         }

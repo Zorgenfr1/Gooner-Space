@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 public class asteroid : MonoBehaviour
 {
-    public string mineralType;
+    public MineralType mineralType;
     public float size;
     public int points = 0;
 

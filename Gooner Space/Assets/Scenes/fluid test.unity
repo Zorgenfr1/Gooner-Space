@@ -1882,6 +1882,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6084416609484513279, guid: 8a294d5e8442afb48a3724f49f065bda, type: 3}
+      propertyPath: moveButton
+      value: 
+      objectReference: {fileID: 781941202}
+    - target: {fileID: 6084416609484513279, guid: 8a294d5e8442afb48a3724f49f065bda, type: 3}
       propertyPath: fuelPercentage
       value: 
       objectReference: {fileID: 281182960}
@@ -2142,6 +2146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScore: 0
+  playerMoney: 100
   mineralnumbers: 00000000000000000000000000000000
   currentCapacity: 0
   maxCapacity: 20
@@ -2150,6 +2155,12 @@ MonoBehaviour:
   lifeImage: {fileID: 2070413253}
   lifePercentage: {fileID: 1650357373}
   Pointstext: {fileID: 1868438153}
+  moneyText: {fileID: 218255998}
+  sellMessage: {fileID: 906850287}
+  fuelImage: {fileID: 1636465577}
+  fuelPercentage: {fileID: 281182960}
+  maxFuelLength: 100
+  remainingFuelLength: 100
 --- !u!4 &1109499450
 Transform:
   m_ObjectHideFlags: 0
@@ -2958,11 +2969,6 @@ MonoBehaviour:
   spawnRadius: 40
   innerBufferRadius: 20
   playerTransform: {fileID: 1282892954}
-  mineralTypes:
-  - Iron
-  - Gold
-  - Diamond
-  - Copper
   astroidSprites:
   - {fileID: 21300000, guid: 079c6bf27cb441c4b80c481f9154b496, type: 3}
   - {fileID: 21300000, guid: 1cb974784a86c5040bc8b7a6e0875ec1, type: 3}
@@ -3071,11 +3077,6 @@ MonoBehaviour:
   spawnRadius: 40
   innerBufferRadius: 20
   playerTransform: {fileID: 1282892954}
-  mineralTypes:
-  - Iron
-  - Gold
-  - Diamond
-  - Copper
   astroidSprites:
   - {fileID: 21300000, guid: 079c6bf27cb441c4b80c481f9154b496, type: 3}
   - {fileID: 21300000, guid: 1cb974784a86c5040bc8b7a6e0875ec1, type: 3}
@@ -3207,7 +3208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: -5
-  points: -100
+  points: -500
   damage: 10
 --- !u!58 &1591728693
 CircleCollider2D:
@@ -3244,7 +3245,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 4.5
 --- !u!212 &1591728694
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3289,7 +3290,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: -4163236914296516301, guid: c30cad056effdae46bc1c27f14ddfa82, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3310,7 +3311,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.223231, y: 4.203817, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

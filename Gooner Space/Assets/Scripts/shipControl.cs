@@ -21,20 +21,27 @@ public class shipControl : MonoBehaviour
     public TMP_Text xytext;
     private bool isFirstInput = true;
 
-    public Image fuelImage;
-    public TMP_Text fuelPercentage;
-    public float maxFuelLength;
-    public float remainingFuelLength;
-    private bool logDistance = false;
+    public Button moveButton;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        remainingFuelLength = maxFuelLength;
+
+        if (moveButton != null)
+        {
+            moveButton.interactable = true; 
+        }
     }
 
     public void ApplyVector()
     {
+        if (isMoving) 
+        {
+            info.text = "The ship is already moving, please replace me with sound";
+            return; 
+        }
+
         if (float.TryParse(inputX.text, out float x) && float.TryParse(inputY.text, out float y))
         {
             info.text = "";
@@ -49,10 +56,14 @@ public class shipControl : MonoBehaviour
 
             else if (inputVector.magnitude <= maxVectorLength)
             {
-                targetVector = new Vector2(x, y);
-                startPosition = rb.position;
-                isMoving = true;
-                logDistance = true;
+                 targetVector = new Vector2(x, y);
+                 startPosition = rb.position;
+                 isMoving = true;
+
+                if (moveButton != null)
+                {
+                    moveButton.interactable = false;
+                }
             }
 
             if (isFirstInput)
@@ -75,20 +86,28 @@ public class shipControl : MonoBehaviour
         {
             float vectorLength = Mathf.Sqrt(targetVector.x * targetVector.x + targetVector.y * targetVector.y);
 
-            if (logDistance == true)
-            {
-                logDistance = false;
-                UpdateUi(vectorLength);
-            }
-
             if (maxVectorLength >= vectorLength)
             {
+                if (rb.position == startPosition)
+                {
+                    if (GameManager.instance != null)
+                    {
+                        GameManager.instance.FuelLogic(vectorLength);
+                    }
+                }
+
                 float distanceTraveled = Vector2.Distance(startPosition, rb.position);
 
                 if (distanceTraveled >= targetVector.magnitude)
                 {
                     isMoving = false;
                     rb.linearVelocity = Vector2.zero;
+
+                    if (moveButton != null)
+                    {
+                        moveButton.interactable = true;
+                    }
+
                     return;
                 }
 
@@ -110,14 +129,6 @@ public class shipControl : MonoBehaviour
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             rb.rotation = angle - 90f;
         }
-
-    }
-
-    void UpdateUi(float vectorLength)
-    {
-        remainingFuelLength -= vectorLength;
-        fuelImage.fillAmount = remainingFuelLength / maxFuelLength;
-        fuelPercentage.text = (remainingFuelLength / maxFuelLength * 100).ToString("F2") + "%";
 
     }
 }
