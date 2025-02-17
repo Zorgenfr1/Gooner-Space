@@ -29,6 +29,7 @@ public class shipControl : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+<<<<<<< Updated upstream
 
         maxVectorLength = PlayerStats.instance.maxVectorLengthPlayer;
 
@@ -49,6 +50,10 @@ public class shipControl : MonoBehaviour
             }
         }
 
+=======
+        remainingFuelLength = maxFuelLength;
+        info.text = "";
+>>>>>>> Stashed changes
     }
 
     public void ApplyVector()
@@ -69,6 +74,7 @@ public class shipControl : MonoBehaviour
             {
                 inputVector = inputVector.normalized * maxVectorLength;
                 info.text = "Input vector exceeded max length";
+<<<<<<< Updated upstream
             }
 
             else if (inputVector.magnitude <= maxVectorLength)
@@ -81,6 +87,8 @@ public class shipControl : MonoBehaviour
                 {
                     moveButton.interactable = false;
                 }
+=======
+>>>>>>> Stashed changes
             }
 
             if (isFirstInput)
