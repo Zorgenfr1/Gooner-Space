@@ -7,6 +7,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    private bool isGameOver = false;
 
     private void Awake()
     {
@@ -59,6 +60,25 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
         {
             MiningSystem.instance.DebugMinerals();
+        }
+    }
+
+    void FixedUpdate()
+    {
+
+        if (!isGameOver)
+        {
+            if (!PlayerStats.instance.emergency && PlayerStats.instance.RemainingFuel <= 0)
+            {
+                isGameOver = true; // Prevents multiple calls
+                SceneManager.LoadScene("MeyerDeath");
+            }
+
+            if (PlayerStats.instance.RemainingLife <= 0)
+            {
+                isGameOver = true; // Prevents multiple calls
+                SceneManager.LoadScene("MeyerDeath");
+            }
         }
     }
 }

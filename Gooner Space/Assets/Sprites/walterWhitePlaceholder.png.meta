@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      walterWhitePlaceholder_0: 7249821328923627535
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

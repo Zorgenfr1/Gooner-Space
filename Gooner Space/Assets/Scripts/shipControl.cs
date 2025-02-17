@@ -29,16 +29,15 @@ public class shipControl : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-<<<<<<< Updated upstream
 
         maxVectorLength = PlayerStats.instance.maxVectorLengthPlayer;
 
         if (moveButton != null)
         {
-            moveButton.interactable = true; 
+            moveButton.interactable = true;
         }
     }
-    void update()
+    void Update()
     {
         if (PlayerStats.instance.noFuel == true && PlayerStats.instance.emergency == true)
         {
@@ -50,18 +49,14 @@ public class shipControl : MonoBehaviour
             }
         }
 
-=======
-        remainingFuelLength = maxFuelLength;
-        info.text = "";
->>>>>>> Stashed changes
     }
 
     public void ApplyVector()
     {
-        if (isMoving) 
+        if (isMoving)
         {
             info.text = "The ship is already moving, please replace me with sound";
-            return; 
+            return;
         }
 
         if (float.TryParse(inputX.text, out float x) && float.TryParse(inputY.text, out float y))
@@ -74,21 +69,18 @@ public class shipControl : MonoBehaviour
             {
                 inputVector = inputVector.normalized * maxVectorLength;
                 info.text = "Input vector exceeded max length";
-<<<<<<< Updated upstream
             }
 
             else if (inputVector.magnitude <= maxVectorLength)
             {
-                 targetVector = new Vector2(x, y);
-                 startPosition = rb.position;
-                 isMoving = true;
+                targetVector = new Vector2(x, y);
+                startPosition = rb.position;
+                isMoving = true;
 
                 if (moveButton != null)
                 {
                     moveButton.interactable = false;
                 }
-=======
->>>>>>> Stashed changes
             }
 
             if (isFirstInput)
@@ -115,10 +107,10 @@ public class shipControl : MonoBehaviour
             {
                 if (rb.position == startPosition)
                 {
-                    if (PlayerStats.instance != null) 
-                    {
-                        PlayerStats.instance.AdjustFuel(vectorLength); 
-                    }
+                        if (PlayerStats.instance != null)
+                        {
+                            PlayerStats.instance.AdjustFuel(vectorLength);
+                        }
                 }
 
                 float distanceTraveled = Vector2.Distance(startPosition, rb.position);

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using static GameManager;
 
 public class AsteroidSpawner : MonoBehaviour
 {
     public GameObject asteroidPrefab;
+    public GameObject minePrefab;
     public int numberOfAsteroids = 50;
     public float spawnRadius = 20f; 
     public float innerBufferRadius = 10f; 
@@ -13,17 +15,23 @@ public class AsteroidSpawner : MonoBehaviour
     public Sprite[] astroidSprites;
     public int[] mineralPoints = { 20, 100, 150, 50 };
 
+    public int numberOfMines = 10;
+    public int mineDamage = 10;
+
     private List<GameObject> activeAsteroids = new List<GameObject>();
 
+    private List<GameObject> activeMines = new List<GameObject>();
 
     void Start()
     {
         GenerateAsteroidsAroundPlayer();
+        GenerateMinesAroundPlayer();
     }
 
     void Update()
     {
         ManageAsteroids();
+        ManageMines();
     }
 
    
@@ -76,6 +84,44 @@ public class AsteroidSpawner : MonoBehaviour
 
                 asteroid.transform.position = newPosition;
 
+            }
+        }
+    }
+
+    void GenerateMinesAroundPlayer()
+    {
+        for (int i = 0; i < numberOfMines; i++)
+        {
+            Vector2 spawnPosition;
+            do
+            {
+                spawnPosition = Random.insideUnitCircle * spawnRadius;
+                spawnPosition += (Vector2)playerTransform.position;
+            }
+            while (IsPositionInInnerBuffer(spawnPosition));
+
+            GameObject newMine = Instantiate(minePrefab, spawnPosition, Quaternion.identity);
+            Mine mineScript = newMine.GetComponent<Mine>();
+            mineScript.damage = mineDamage;
+
+            activeMines.Add(newMine);
+        }
+    }
+    void ManageMines()
+    {
+        foreach (GameObject mine in activeMines)
+        {
+            float distance = Vector2.Distance(mine.transform.position, playerTransform.position);
+            if (distance > spawnRadius)
+            {
+                Vector2 newPosition;
+                do
+                {
+                    newPosition = Random.insideUnitCircle * spawnRadius;
+                    newPosition += (Vector2)playerTransform.position;
+                }
+                while (IsPositionInInnerBuffer(newPosition));
+                mine.transform.position = newPosition;
             }
         }
     }
