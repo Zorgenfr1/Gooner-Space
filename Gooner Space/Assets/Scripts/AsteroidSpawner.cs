@@ -7,13 +7,11 @@ public class AsteroidSpawner : MonoBehaviour
 {
     public GameObject asteroidPrefab;
     public int numberOfAsteroids = 50;
-    public float spawnRadius = 20f; // Outer spawn radius
-    public float innerBufferRadius = 10f; // Inner buffer zone where no asteroids are spawned
+    public float spawnRadius = 20f; 
+    public float innerBufferRadius = 10f; 
     public Transform playerTransform;
     public Sprite[] astroidSprites;
     public int[] mineralPoints = { 20, 100, 150, 50 };
-
-    public string selectedMineral;
 
     private List<GameObject> activeAsteroids = new List<GameObject>();
 
@@ -37,22 +35,21 @@ public class AsteroidSpawner : MonoBehaviour
             do
             {
                 spawnPosition = Random.insideUnitCircle * spawnRadius;
-                spawnPosition += (Vector2)playerTransform.position; // Offset by player's position
+                spawnPosition += (Vector2)playerTransform.position;
             }
-            while (IsPositionInInnerBuffer(spawnPosition)); // Ensure it's outside the inner buffer
+            while (IsPositionInInnerBuffer(spawnPosition)); 
 
             GameObject newAsteroid = Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity);
-            float size = Random.Range(0.5f, 2f); // Random scale
+            float size = Random.Range(0.5f, 2f); 
             newAsteroid.transform.localScale = Vector3.one * size;
             newAsteroid.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
 
-            SpriteRenderer spriteRenderer = newAsteroid.GetComponent<SpriteRenderer>();
-
             MineralType selectedMineral = (MineralType)Random.Range(0, System.Enum.GetValues(typeof(MineralType)).Length);
 
+            SpriteRenderer spriteRenderer = newAsteroid.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = astroidSprites[(int)selectedMineral];
 
-            asteroid asteroidScript = newAsteroid.GetComponent<asteroid>();
+            Asteroid asteroidScript = newAsteroid.GetComponent<Asteroid>();
             asteroidScript.points = (int)(size * mineralPoints[(int)selectedMineral]);  
             asteroidScript.mineralType = selectedMineral;  
             asteroidScript.size = size;
@@ -67,16 +64,15 @@ public class AsteroidSpawner : MonoBehaviour
         {
             float distance = Vector2.Distance(asteroid.transform.position, playerTransform.position);
 
-            // If the asteroid is outside the spawn radius, relocate it
             if (distance > spawnRadius)
             {
                 Vector2 newPosition;
                 do
                 {
                     newPosition = Random.insideUnitCircle * spawnRadius;
-                    newPosition += (Vector2)playerTransform.position; // Offset by player's position
+                    newPosition += (Vector2)playerTransform.position; 
                 }
-                while (IsPositionInInnerBuffer(newPosition)); // Ensure it's outside the inner buffer
+                while (IsPositionInInnerBuffer(newPosition)); 
 
                 asteroid.transform.position = newPosition;
 
@@ -87,18 +83,16 @@ public class AsteroidSpawner : MonoBehaviour
     bool IsPositionInInnerBuffer(Vector2 position)
     {
         float distance = Vector2.Distance(position, playerTransform.position);
-        return distance < innerBufferRadius; // True if within the inner buffer
+        return distance < innerBufferRadius; 
     }
 
     void OnDrawGizmos()
     {
         if (playerTransform != null)
         {
-            // Draw the outer spawn radius
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(playerTransform.position, spawnRadius);
 
-            // Draw the inner buffer radius
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(playerTransform.position, innerBufferRadius);
         }

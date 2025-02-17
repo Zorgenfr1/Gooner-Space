@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FrodeMaster.unity
     guid: 540911dcd08378c44942e0c5012ca0a6
+  - enabled: 1
+    path: Assets/Scenes/shopComputer.unity
+    guid: cd8dccd3fa64853448370c9bad33bc4c
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

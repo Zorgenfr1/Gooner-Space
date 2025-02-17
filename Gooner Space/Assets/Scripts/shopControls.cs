@@ -1,10 +1,18 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class shopControls : MonoBehaviour
 {
     public float scrollSpeed = 20f;
     public float edgeThreshold = 100f;
     public float minX = -10f, maxX = 10f;
+
+    private bool hasHitLeftEdge = false;  
+    private bool hasHitRightEdge = false;
+
+    public Image exitArrow;
+    public Image shopArrow;
 
     void Update()
     {
@@ -25,6 +33,29 @@ public class shopControls : MonoBehaviour
 
         newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
 
+        if (newPosition.x == minX && !hasHitLeftEdge)
+        {
+            hasHitLeftEdge = true;
+            exitArrow.gameObject.SetActive(false);
+        }
+        else if (newPosition.x == maxX && !hasHitRightEdge)
+        {
+            hasHitRightEdge = true;
+            shopArrow.gameObject.SetActive(false);
+        }
+
         transform.position = newPosition;
+
+        if (newPosition.x > minX && hasHitLeftEdge)
+        {
+            hasHitLeftEdge = false;
+            exitArrow.gameObject.SetActive(true);
+        }
+
+        if (newPosition.x < maxX && hasHitRightEdge)
+        {
+            hasHitRightEdge = false;
+            shopArrow.gameObject.SetActive(true);
+        }
     }
 }

@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static GameManager;
 
-public class asteroid : MonoBehaviour
+public class Asteroid : MonoBehaviour
 {
     public MineralType mineralType;
     public float size;
@@ -11,22 +10,14 @@ public class asteroid : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("Collision detected with: " + other.gameObject.name);
-
         if (other.gameObject.CompareTag("Player"))
         {
-            //Debug.Log("Player collided with asteroid!");
-
-            GameManager.instance.AddPoints(points);
-            GameManager.instance.SetAsteroidType(mineralType);
-            GameManager.instance.ControlCapacity(size);
+            PlayerStats.instance.AddScore(points);
+            MiningSystem.instance.AddMineral(mineralType, size);
+            PlayerStats.instance.shipCapacity -= size;
 
             Vector2 newPosition = new Vector2(Random.Range(-50f, 50f), Random.Range(-50f, 50f));
             transform.position = newPosition;
-
-            //AsteroidSpawner.ManageAsteroids();
-            //Move this astroid
-            //Destroy(gameObject);
         }
     }
 }

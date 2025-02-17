@@ -44,7 +44,10 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Thickness: 0.016
+    - _Thickness: 0.1
+    - _deex: 0
+    - _deex_1: 0
+    - _onOff: 0
     m_Colors:
     - _Color: {r: 1024, g: 1024, b: 1024, a: 1}
   m_BuildTextureStacks: []

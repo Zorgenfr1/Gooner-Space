@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class shipControl : MonoBehaviour
@@ -9,7 +10,7 @@ public class shipControl : MonoBehaviour
     public TMP_InputField inputX;
     public TMP_InputField inputY;
     public float moveSpeed = 5f;
-    public float maxVectorLength = 10f;
+    public float maxVectorLength;
 
     private Rigidbody2D rb;
     private Vector2 targetVector;
@@ -24,14 +25,30 @@ public class shipControl : MonoBehaviour
     public Button moveButton;
 
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        maxVectorLength = PlayerStats.instance.maxVectorLengthPlayer;
 
         if (moveButton != null)
         {
             moveButton.interactable = true; 
         }
+    }
+    void update()
+    {
+        if (PlayerStats.instance.noFuel == true && PlayerStats.instance.emergency == true)
+        {
+            info.text = "Press E to return to shop";
+            if (Input.GetKey(KeyCode.E))
+            {
+                SceneManager.LoadScene("FrodeMaster");
+                PlayerStats.instance.emergency = false;
+            }
+        }
+
     }
 
     public void ApplyVector()
@@ -90,9 +107,9 @@ public class shipControl : MonoBehaviour
             {
                 if (rb.position == startPosition)
                 {
-                    if (GameManager.instance != null)
+                    if (PlayerStats.instance != null) 
                     {
-                        GameManager.instance.FuelLogic(vectorLength);
+                        PlayerStats.instance.AdjustFuel(vectorLength); 
                     }
                 }
 
