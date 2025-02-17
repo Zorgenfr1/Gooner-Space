@@ -47,7 +47,7 @@ public class itemSingleBuying : MonoBehaviour
                 isMouseOver = true;
 
                 itemNameText.text = itemName;
-                priceText.text = $"{priceOfItem}$";
+                priceText.text = $"{priceOfItem:F2}$";
                 itemNameText.gameObject.SetActive(true);
                 priceText.gameObject.SetActive(true);
                 buyButton.gameObject.SetActive(true);
@@ -96,6 +96,7 @@ public class itemSingleBuying : MonoBehaviour
         {
             case 0:
                 PlayerStats.instance.maxVectorLengthPlayer += increasement;
+                PlayerStats.instance.moveSpeedPlayer += 0.1f;
                 break;
             case 1:
                 PlayerStats.instance.MaxLife += increasement;
@@ -103,6 +104,8 @@ public class itemSingleBuying : MonoBehaviour
                 break;
             case 2:
                 PlayerStats.instance.shipCapacity += increasement;
+                PlayerStats.instance.maxSize += increasement;
+                UIManager.instance.UpdateCargoUI(PlayerStats.instance.maxSize, PlayerStats.instance.shipCapacity);
                 break;
             case 3:
                 PlayerStats.instance.MaxFuel += increasement;
@@ -110,6 +113,7 @@ public class itemSingleBuying : MonoBehaviour
                 break;
             case 4:
                 PlayerStats.instance.emergency = true;
+                buyButton.interactable = false;
                 break;
         }
         UIManager.instance.UpdateMoneyUI(PlayerStats.instance.PlayerMoney);
@@ -123,6 +127,7 @@ public class itemSingleBuying : MonoBehaviour
             amountOfItemBought++;
             PlayerStats.instance.PlayerMoney -= priceOfItem;
             itemPrice();
+            priceText.text = $"{priceOfItem:F2}$";
             UIManager.instance.UpdateMoneyUI(PlayerStats.instance.PlayerMoney);
         }
     }

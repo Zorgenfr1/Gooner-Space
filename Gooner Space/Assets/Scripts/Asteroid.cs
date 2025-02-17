@@ -15,6 +15,7 @@ public class Asteroid : MonoBehaviour
             PlayerStats.instance.AddScore(points);
             MiningSystem.instance.AddMineral(mineralType, size);
             PlayerStats.instance.shipCapacity -= size;
+            UIManager.instance.UpdateCargoUI(PlayerStats.instance.maxSize, PlayerStats.instance.shipCapacity);
 
             Vector2 newPosition = new Vector2(Random.Range(-50f, 50f), Random.Range(-50f, 50f));
             transform.position = newPosition;

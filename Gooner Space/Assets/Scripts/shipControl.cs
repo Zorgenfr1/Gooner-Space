@@ -4,12 +4,13 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class shipControl : MonoBehaviour
 {
     public TMP_InputField inputX;
     public TMP_InputField inputY;
-    public float moveSpeed = 5f;
+    public float moveSpeed;
     public float maxVectorLength;
 
     private Rigidbody2D rb;
@@ -18,9 +19,8 @@ public class shipControl : MonoBehaviour
     private bool isMoving = false;
 
     public TMP_Text info;
-
+    private bool playerHasMoved;
     public TMP_Text xytext;
-    private bool isFirstInput = true;
 
     public Button moveButton;
 
@@ -31,6 +31,12 @@ public class shipControl : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         maxVectorLength = PlayerStats.instance.maxVectorLengthPlayer;
+        moveSpeed = PlayerStats.instance.moveSpeedPlayer;
+
+        if (GameManager.instance.playerHasMovedDummy == true)
+        {
+            xytext.text = "";
+        }
 
         if (moveButton != null)
         {
@@ -49,6 +55,29 @@ public class shipControl : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            if (EventSystem.current.currentSelectedGameObject == inputX.gameObject)
+            {
+                inputY.Select(); 
+            }
+            else if (EventSystem.current.currentSelectedGameObject == inputY.gameObject)
+            {
+                moveButton.Select(); 
+            }
+            else if (EventSystem.current.currentSelectedGameObject == moveButton.gameObject)
+            {
+                inputX.Select(); 
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            if (EventSystem.current.currentSelectedGameObject == moveButton.gameObject)
+            {
+                moveButton.onClick.Invoke(); 
+            }
+        }
     }
 
     public void ApplyVector()
@@ -83,10 +112,10 @@ public class shipControl : MonoBehaviour
                 }
             }
 
-            if (isFirstInput)
+            if (GameManager.instance.playerHasMovedDummy == false)
             {
+                GameManager.instance.playerHasMovedDummy = true;
                 xytext.text = "";
-                isFirstInput = false;
             }
 
             RotatePlayerToFaceDirection(targetVector);
@@ -136,6 +165,8 @@ public class shipControl : MonoBehaviour
                 Debug.LogWarning("Target vector length exceeds the maximum allowed length.");
                 isMoving = false;
             }
+
+            playerHasMoved = GameManager.instance.playerHasMovedDummy;
 
         }
     }

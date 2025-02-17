@@ -7,6 +7,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public bool playerHasMovedDummy = false;
     private bool isGameOver = false;
 
     private void Awake()

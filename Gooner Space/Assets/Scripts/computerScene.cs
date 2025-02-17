@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,11 @@ public class computerScene : MonoBehaviour
     public GameObject shopComputerBalls;
     private string sceneToLoad;
     private bool enterAllowed;
+    public TextMeshProUGUI itemNameText;
+    public string itemName;
+
+    public float textPositionX;
+    public float textPositionY;
 
     private void Awake()
     {
@@ -25,6 +31,10 @@ public class computerScene : MonoBehaviour
                 isMouseOver = true;
                 sceneToLoad = "shopComputer";
                 enterAllowed = true;
+                itemNameText.gameObject.SetActive(true);
+                itemNameText.text = itemName;
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+                itemNameText.transform.position = screenPos + new Vector3(textPositionX, textPositionY, 0);
                 SaveSystem.SaveGame();
             }
 
@@ -37,6 +47,7 @@ public class computerScene : MonoBehaviour
         {
             if (isMouseOver)
             {
+                itemNameText.gameObject.SetActive(false);
                 enterAllowed = false;
                 isMouseOver = false;
             }

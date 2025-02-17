@@ -54,7 +54,7 @@ public class itemBuyingMulti : MonoBehaviour
                 }
 
                 itemNameText.text = itemName;
-                priceText.text = $"{buyingPrice}$";
+                priceText.text = $"{buyingPrice:F2}$";
                 itemNameText.gameObject.SetActive(true);
                 priceText.gameObject.SetActive(true);
                 buyButton.gameObject.SetActive(true);
@@ -121,6 +121,8 @@ public class itemBuyingMulti : MonoBehaviour
     public void buyFunction()
     {
         itemLogic();
+        priceText.text = $"{buyingPrice:F2}$";
+        buyButton.interactable = false;
         UIManager.instance.UpdateMoneyUI(PlayerStats.instance.PlayerMoney);
     }
 }

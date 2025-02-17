@@ -9,7 +9,9 @@ public class PlayerStats : MonoBehaviour
     public float PlayerMoney;
     public float RemainingLife;
     public float RemainingFuel;
+    public float moveSpeedPlayer = 5f;
     public float maxVectorLengthPlayer = 10f;
+    public float maxSize = 20f;
     public float shipCapacity = 20f;
     public bool emergency;
     public bool noFuel;

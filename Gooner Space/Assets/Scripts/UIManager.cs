@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 
     public TMP_Text scoreText;
     public TMP_Text moneyText;
+    public TMP_Text sizeText;
     public TMP_Text fuelText;
     public TMP_Text lifeText;
     public Image fuelImage;
@@ -29,6 +30,7 @@ public class UIManager : MonoBehaviour
             UpdateMoneyUI(PlayerStats.instance.PlayerMoney);
             UpdateLifeUI(PlayerStats.instance.RemainingLife);
             UpdateFuelUI(PlayerStats.instance.RemainingFuel);
+            UpdateCargoUI(PlayerStats.instance.maxSize, PlayerStats.instance.shipCapacity);
         }
     }
     private void Start()
@@ -37,6 +39,7 @@ public class UIManager : MonoBehaviour
         UpdateMoneyUI(PlayerStats.instance.PlayerMoney);
         UpdateLifeUI(PlayerStats.instance.RemainingLife);
         UpdateFuelUI(PlayerStats.instance.RemainingFuel);
+        UpdateCargoUI(PlayerStats.instance.maxSize, PlayerStats.instance.shipCapacity);
     }
 
     public void UpdateScoreUI(int score)
@@ -47,6 +50,12 @@ public class UIManager : MonoBehaviour
     public void UpdateMoneyUI(float money)
     {
         moneyText.text = "Money: $" + money.ToString("F2");
+    }
+    public void UpdateCargoUI(float size, float maxSize)
+    {
+        size = PlayerStats.instance.shipCapacity;
+        maxSize = PlayerStats.instance.maxSize;
+        sizeText.text = "Cargo: " + (maxSize-size).ToString("F1")+" Ton/"+ maxSize.ToString("F1")+" Ton";
     }
 
     public void UpdateFuelUI(float fuel)

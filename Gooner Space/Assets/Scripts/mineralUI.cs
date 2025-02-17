@@ -7,6 +7,7 @@ using System.Collections;
 
 public class MineralUI : MonoBehaviour
 {
+    public GameObject parentPanel;
     public TextMeshProUGUI typeText;
     public TextMeshProUGUI sizeText;
     public TextMeshProUGUI priceText;
@@ -34,5 +35,6 @@ public class MineralUI : MonoBehaviour
     {
         Enum.TryParse(mineralTypeBenis, out MineralType mineralType);
         MiningSystem.instance.SellMineral(mineralType, size);
+        Destroy(parentPanel);
     }
 }
