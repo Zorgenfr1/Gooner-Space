@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class MiningSystem : MonoBehaviour
 {
@@ -25,6 +26,16 @@ public class MiningSystem : MonoBehaviour
         else
         {
             Destroy(gameObject);  
+        }
+    }
+
+    public void SetMinedMinerals(List<MinedMineralEntry> savedMinerals)
+    {
+        minedMinerals.Clear();
+        foreach (var entry in savedMinerals)
+        {
+            var key = (Enum.Parse<MineralType>(entry.MineralType), entry.Size);
+            minedMinerals[key] = entry.Count;
         }
     }
 
@@ -84,6 +95,10 @@ public class MiningSystem : MonoBehaviour
         }
     }
 
+    public void ResetMinedMinerals()
+    {
+        minedMinerals.Clear();
+    }
 }
 
 public enum MineralType

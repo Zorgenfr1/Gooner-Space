@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
-using System;
 
 public static class SaveSystem
 {
@@ -9,7 +8,7 @@ public static class SaveSystem
 
     public static void SaveGame()
     {
-        GameData data = new GameData(PlayerStats.instance);
+        GameData data = new GameData(PlayerStats.instance, MiningSystem.instance, GameManager.instance);
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(savePath, json);
     }
@@ -37,25 +36,73 @@ public class GameData
     public float remainingLife;
     public float remainingFuelLength;
     public int[] mineralNumbers;
-    public float maxLife; 
-    public float maxFuel;
-    public List<MineralEntry> asteroidCollection;
 
-    public GameData(PlayerStats stats)
+    public float maxLife;
+    public float maxFuel;
+
+    public float moveSpeedPlayer;
+    public float maxVectorLengthPlayer;
+    public float maxSize;
+    public float shipCapacity;
+
+    public bool noFuel;
+    public bool emergency;
+    public bool playerHasMovedDummy;
+
+    public List<MineralEntry> asteroidCollection;
+    public List<MinedMineralEntry> minedMinerals;
+
+    public GameData(PlayerStats stats, MiningSystem miningSystem, GameManager gameManager)
     {
         playerScore = stats.PlayerScore;
         playerMoney = stats.PlayerMoney;
         remainingLife = stats.RemainingLife;
         remainingFuelLength = stats.RemainingFuel;
         mineralNumbers = stats.MineralNumbers;
-        asteroidCollection = stats.GetAsteroidCollection();
-        maxLife = stats.MaxLife; 
+
+        maxLife = stats.MaxLife;
         maxFuel = stats.MaxFuel;
+
+        moveSpeedPlayer = stats.moveSpeedPlayer;
+        maxVectorLengthPlayer = stats.maxVectorLengthPlayer;
+        maxSize = stats.maxSize;
+        shipCapacity = stats.shipCapacity;
+
+        noFuel = stats.noFuel;
+        emergency = stats.emergency;
+        playerHasMovedDummy = gameManager.playerHasMovedDummy;
+
+        asteroidCollection = stats.GetAsteroidCollection();
+
+        minedMinerals = new List<MinedMineralEntry>();
+        foreach (var entry in miningSystem.GetMinedMinerals())
+        {
+            minedMinerals.Add(new MinedMineralEntry(entry.Key.Item1.ToString(), entry.Key.Item2, entry.Value));
+        }
     }
 
     public void ApplyData()
     {
         PlayerStats.instance.SetData(this);
+        MiningSystem.instance.SetMinedMinerals(minedMinerals);
+        GameManager.instance.playerHasMovedDummy = playerHasMovedDummy;
     }
 }
+
+
+[System.Serializable]
+public class MinedMineralEntry
+{
+    public string MineralType;
+    public float Size;
+    public int Count;
+
+    public MinedMineralEntry(string type, float size, int count)
+    {
+        MineralType = type;
+        Size = size;
+        Count = count;
+    }
+}
+
 

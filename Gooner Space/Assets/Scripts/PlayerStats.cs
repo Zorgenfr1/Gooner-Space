@@ -85,6 +85,31 @@ public class PlayerStats : MonoBehaviour
 
         MaxLife = data.maxLife;
         MaxFuel = data.maxFuel;
+
+        moveSpeedPlayer = data.moveSpeedPlayer;
+        maxVectorLengthPlayer = data.maxVectorLengthPlayer;
+        maxSize = data.maxSize;
+        shipCapacity = data.shipCapacity;
+
+        noFuel = data.noFuel;
+        emergency = data.emergency;
+    }
+
+    public void ResetStats()
+    {
+        PlayerScore = 0;
+        PlayerMoney = 100;
+        MaxLife = 100;
+        MaxFuel = 100;
+        RemainingLife = MaxLife;
+        RemainingFuel = MaxFuel;
+        moveSpeedPlayer = 5f;
+        maxVectorLengthPlayer = 10f;
+        maxSize = 20f;
+        shipCapacity = 20f;
+        noFuel = false;
+        emergency = false;
+        MineralNumbers = new int[4]; 
     }
 }
 

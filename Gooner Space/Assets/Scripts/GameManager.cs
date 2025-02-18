@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public bool playerHasMovedDummy = false;
-    private bool isGameOver = false;
+    public bool isGameOver = false;
+    public bool firstTimePlaying = true;
+    public float highscore = 0f;
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateUI();
+        SaveData();
     }
 
     public void ChangeScene(string sceneName)
@@ -36,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     public void OnApplicationQuit()
     {
-        SaveData();
+        SaveSystem.SaveGame();
     }
 
     public void SaveData()
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviour
     {
         SaveSystem.LoadGame();
     }
+
 
     private void UpdateUI()
     {
@@ -69,17 +73,26 @@ public class GameManager : MonoBehaviour
 
         if (!isGameOver)
         {
-            if (!PlayerStats.instance.emergency && PlayerStats.instance.RemainingFuel <= 0)
+            if (!PlayerStats.instance.emergency && PlayerStats.instance.RemainingFuel <= 1)
             {
                 isGameOver = true; // Prevents multiple calls
+                if(PlayerStats.instance.PlayerScore > highscore)
+                {
+                    highscore = PlayerStats.instance.PlayerScore;
+                }
                 SceneManager.LoadScene("MeyerDeath");
             }
 
             if (PlayerStats.instance.RemainingLife <= 0)
             {
                 isGameOver = true; // Prevents multiple calls
+                if (PlayerStats.instance.PlayerScore > highscore)
+                {
+                    highscore = PlayerStats.instance.PlayerScore;
+                }
                 SceneManager.LoadScene("MeyerDeath");
             }
         }
     }
+
 }
