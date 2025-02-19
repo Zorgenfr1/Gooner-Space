@@ -1,0 +1,35 @@
+Musik:
+Main Menu musikken skal afspille når menuen med "new game" og "continue game" er på.
+
+Main Theme musikken skal afspille når spilleren er loadet ind i spillet.
+
+Shop Music musikken skal afspille når spilleren er inde i butikken.
+
+(Der er den originale og looped chorus til hver sang i musik mappen).
+
+-----------------------------------------------------------------------------------
+
+Lydeffekter:
+Den første (1) lydeffekt i videoen skal afspille når man samler en asteroide op (hvad fanden det nu er).
+
+Den anden (2) lydeffekt i videoen skal afspille når man køber noget i butikken.
+
+Den tredje (3) lydeffekt i videoen skal afspille når man klikker på "confirm" og andre knapper, såsom "new game," "continue game" og "quit."
+
+Den femte (5) lydeffekt i videoen skal afspille når man går ind og ud af shoppen.
+
+Link til video med lydeffekterne:
+https://www.youtube.com/watch?v=YNSbL-Cek1c&ab_channel=BoostSound
+
+
+Computer start lyd:
+https://www.youtube.com/watch?v=7nQ2oiVqKHw&ab_channel=Ballyweg
+
+Computer sluk lyd:
+https://www.youtube.com/watch?v=A8wK-vhuWog&ab_channel=GamingSoundFX
+
+Game over lyd til når man dør:
+https://www.youtube.com/watch?v=FVJJKIJWKdc&ab_channel=FOXITOGOExtra
+
+
+Lyd til eksplosionerne af minerne kan findes inde under musik mappen som "8-bit explosion."
