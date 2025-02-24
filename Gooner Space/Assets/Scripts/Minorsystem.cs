@@ -86,6 +86,8 @@ public class MiningSystem : MonoBehaviour
 
             float pricePerUnit = CalculatePrice(mineralType, size);
             float earnings = pricePerUnit * count;
+            TimeTracker.instance.Money(earnings);
+            TimeTracker.instance.ComputerTime(Time.time.ToString());
 
             PlayerStats.instance.PlayerMoney += earnings;
             PlayerStats.instance.shipCapacity += size;

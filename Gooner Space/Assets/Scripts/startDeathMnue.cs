@@ -9,6 +9,7 @@ public class startDeathMenu : MonoBehaviour
 {
     public Button continueButton;
     public TextMeshProUGUI highscoreText;
+
     private void Start()
     {
         CheckContinueAvailability();
@@ -22,6 +23,9 @@ public class startDeathMenu : MonoBehaviour
 
     public void newGame() 
     {
+        //Remove when test is done
+        TimeTracker.instance.StartTime(Time.time.ToString());
+
         GameManager.instance.firstTimePlaying = false;
 
         PlayerStats.instance.ResetStats();
@@ -33,6 +37,7 @@ public class startDeathMenu : MonoBehaviour
         SaveSystem.SaveGame();
 
         SceneManager.LoadScene(1);
+
     }
     public void continueGame() // start
     {

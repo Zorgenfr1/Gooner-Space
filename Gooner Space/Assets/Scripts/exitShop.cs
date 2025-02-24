@@ -28,7 +28,7 @@ public class exitShop : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene("fluid test");
             }
         }
         else

@@ -44,6 +44,7 @@ public class PlayerStats : MonoBehaviour
     {
         PlayerScore += points;
         UIManager.instance.UpdateScoreUI(PlayerScore);
+        TimeTracker.instance.HighScore(PlayerScore.ToString());
     }
 
     public void TakeDamage(float damage)

@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/meyerStart.unity
+    guid: 8095c3927afe23b449acdfdd8baa152d
   - enabled: 1
     path: Assets/Scenes/fluid test.unity
     guid: 88870ec16bcf2bf4a812816b801d6da1
@@ -20,8 +20,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MeyerDeath.unity
     guid: 602ad551bfa53f741956f71b09ac87ee
-  - enabled: 1
-    path: Assets/Scenes/meyerStart.unity
-    guid: 8095c3927afe23b449acdfdd8baa152d
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

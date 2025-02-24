@@ -77,6 +77,8 @@ public class GameManager : MonoBehaviour
         {
             if (!PlayerStats.instance.emergency && PlayerStats.instance.RemainingFuel <= 1)
             {
+                TimeTracker.instance.GameTime(Time.time.ToString());
+                TimeTracker.instance.DeathWay("Fuel");
                 isGameOver = true; 
                 if(PlayerStats.instance.PlayerScore > highscore)
                 {
@@ -97,6 +99,8 @@ public class GameManager : MonoBehaviour
 
             else if (PlayerStats.instance.RemainingLife <= 0)
             {
+                TimeTracker.instance.GameTime(Time.time.ToString());
+                TimeTracker.instance.GameTime("Life");
                 isGameOver = true;
                 if (PlayerStats.instance.PlayerScore > highscore)
                 {
