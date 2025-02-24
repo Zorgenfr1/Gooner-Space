@@ -47,13 +47,17 @@ public class shipControl : MonoBehaviour
     {
         if (PlayerStats.instance.noFuel == true && PlayerStats.instance.emergency == true)
         {
+            moveButton.interactable = false;
+            info.gameObject.SetActive(true);
             info.text = "Press E to return to shop";
-            if (Input.GetKey(KeyCode.E))
+
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 SceneManager.LoadScene("FrodeMaster");
                 PlayerStats.instance.emergency = false;
             }
         }
+
 
         if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {

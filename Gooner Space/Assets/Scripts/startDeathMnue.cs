@@ -15,12 +15,12 @@ public class startDeathMenu : MonoBehaviour
         highscoreFunction();
     }
 
-    private void highscoreFunction() // start
+    private void highscoreFunction() 
     {
         highscoreText.text = "Current Best Score: " + (GameManager.instance.highscore).ToString("F0");
     }
 
-    public void newGame() // start death
+    public void newGame() 
     {
         GameManager.instance.firstTimePlaying = false;
 

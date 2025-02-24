@@ -51,7 +51,6 @@ public class PlayerStats : MonoBehaviour
         RemainingLife -= damage;
         RemainingLife = Mathf.Clamp(RemainingLife, 0, MaxLife);
         UIManager.instance.UpdateLifeUI(RemainingLife);
-        Debug.Log(RemainingLife);
     }
 
     public void AdjustFuel(float vectorLength)
@@ -59,7 +58,7 @@ public class PlayerStats : MonoBehaviour
         RemainingFuel -= vectorLength;
         RemainingFuel = Mathf.Clamp(RemainingFuel, 0, MaxFuel);
         UIManager.instance.UpdateFuelUI(RemainingFuel);
-        if (RemainingLife < 10)
+        if (RemainingFuel < 10)
         {
             noFuel = true;
         }

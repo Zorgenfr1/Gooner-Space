@@ -1,0 +1,40 @@
+using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+
+public class shopItem : MonoBehaviour{
+	public itemData itemData;
+	public TMP_Text itemNameText;
+	public TMP_Text priceText;
+	public Button buyButton;
+	public Canvas itemCanvas;
+
+	private int puchasedAmount = 0;
+
+	void Start(){
+		itemCanvas.gameObject.SetActive(false);
+		buyButton.onClick.AddListener(BuyItem);
+	}
+
+	public void ShowItemUI(){
+		itemCanvas.gameObject.SetActive(true);
+		itemNameText.text = itemData.itemName;
+		priceText.text = $"{Mathf.Round(itemData.basePrice * 10) / 10:F1}$";
+	}
+
+	public void HideItemUI(){
+		itemCanvas.gameObject.SetActive(false);
+	}
+
+	void BuyItem(){
+		if(itemData.itemType == ItemType.comsumable && puchasedAmount >= itemData.maxAmount){
+			UIManager.instance.ShowMessage("Item limit reached!");
+			return;
+		}
+
+		bool success = ShopManager.instance.BuyItem(itemData);
+		if(success && itemData.itemType == ItemType.comsuable){
+			puchasedAmount++;
+		}
+	}
+}

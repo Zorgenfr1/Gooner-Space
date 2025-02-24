@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerScore: 0
-  PlayerMoney: 100
+  PlayerMoney: 100000
   RemainingLife: 100
   RemainingFuel: 100
   moveSpeedPlayer: 5

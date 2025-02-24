@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour
 {
@@ -75,24 +77,49 @@ public class GameManager : MonoBehaviour
         {
             if (!PlayerStats.instance.emergency && PlayerStats.instance.RemainingFuel <= 1)
             {
-                isGameOver = true; // Prevents multiple calls
+                isGameOver = true; 
                 if(PlayerStats.instance.PlayerScore > highscore)
                 {
                     highscore = PlayerStats.instance.PlayerScore;
                 }
-                SceneManager.LoadScene("MeyerDeath");
+
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+                PlayerExplosion playerExplosion = player.GetComponent<PlayerExplosion>();
+                if (playerExplosion != null)
+                {
+                    playerExplosion.TriggerDeath();
+                }
+
+
+                Invoke("LoadGameOverScene", 2f);
             }
 
-            if (PlayerStats.instance.RemainingLife <= 0)
+            else if (PlayerStats.instance.RemainingLife <= 0)
             {
-                isGameOver = true; // Prevents multiple calls
+                isGameOver = true;
                 if (PlayerStats.instance.PlayerScore > highscore)
                 {
                     highscore = PlayerStats.instance.PlayerScore;
                 }
-                SceneManager.LoadScene("MeyerDeath");
+
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+                PlayerExplosion playerExplosion = player.GetComponent<PlayerExplosion>();
+                if (playerExplosion != null)
+                {
+                    playerExplosion.TriggerDeath(); 
+                }
+
+
+                Invoke("LoadGameOverScene", 2f);
             }
         }
+    }
+
+    void LoadGameOverScene()
+    {
+        SceneManager.LoadScene("MeyerDeath");
     }
 
 }

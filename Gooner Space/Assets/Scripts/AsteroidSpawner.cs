@@ -68,6 +68,11 @@ public class AsteroidSpawner : MonoBehaviour
 
     void ManageAsteroids()
     {
+        if (playerTransform == null)
+        {
+            return; 
+        }
+
         foreach (GameObject asteroid in activeAsteroids)
         {
             float distance = Vector2.Distance(asteroid.transform.position, playerTransform.position);
@@ -109,6 +114,11 @@ public class AsteroidSpawner : MonoBehaviour
     }
     void ManageMines()
     {
+        if (playerTransform == null)
+        {
+            return; 
+        }
+
         foreach (GameObject mine in activeMines)
         {
             float distance = Vector2.Distance(mine.transform.position, playerTransform.position);
