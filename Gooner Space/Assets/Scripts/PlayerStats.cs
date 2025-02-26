@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
+
 
 public class PlayerStats : MonoBehaviour
 {
@@ -19,6 +21,8 @@ public class PlayerStats : MonoBehaviour
 
     public float MaxLife = 100f; 
     public float MaxFuel = 100f;
+
+    private string deathCause = ""; //test
 
     private Dictionary<(MineralType, float), int> asteroidCollection = new Dictionary<(MineralType, float), int>();
 
@@ -64,6 +68,19 @@ public class PlayerStats : MonoBehaviour
             noFuel = true;
         }
     }
+
+    public void SetDeathCause(string cause) //test
+    { 
+        deathCause = cause;
+    }
+
+    public void SaveStatsToCSV() //test
+    {
+        string savePath = Application.persistentDataPath + "/playerStats.csv";
+        string data = $"{PlayerScore},{PlayerMoney},{RemainingLife},{RemainingFuel},{deathCause}";
+        File.WriteAllText(savePath, data);
+    }
+
 
     public List<MineralEntry> GetAsteroidCollection()
     {

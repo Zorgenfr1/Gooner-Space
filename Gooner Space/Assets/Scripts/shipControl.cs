@@ -24,7 +24,12 @@ public class shipControl : MonoBehaviour
 
     public Button moveButton;
 
+    AudioManager audioManager;
 
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -86,6 +91,8 @@ public class shipControl : MonoBehaviour
 
     public void ApplyVector()
     {
+        audioManager.PlaySFX(audioManager.buttonConfirm);
+
         if (isMoving)
         {
             info.text = "The ship is already moving, please replace me with sound";

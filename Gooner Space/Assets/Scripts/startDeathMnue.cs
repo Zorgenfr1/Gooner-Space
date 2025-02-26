@@ -10,6 +10,13 @@ public class startDeathMenu : MonoBehaviour
     public Button continueButton;
     public TextMeshProUGUI highscoreText;
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void Start()
     {
         CheckContinueAvailability();
@@ -23,8 +30,9 @@ public class startDeathMenu : MonoBehaviour
 
     public void newGame() 
     {
-        //Remove when test is done
-        TimeTracker.instance.StartTime(Time.time.ToString());
+        PlaytestTimerSystem.StartTimer(); //test
+
+        audioManager.PlaySFX(audioManager.buttonConfirm);
 
         GameManager.instance.firstTimePlaying = false;
 
@@ -41,6 +49,8 @@ public class startDeathMenu : MonoBehaviour
     }
     public void continueGame() // start
     {
+        audioManager.PlaySFX(audioManager.buttonConfirm);
+
         if (File.Exists(Application.persistentDataPath + "/savefile.json") && !GameManager.instance.isGameOver && GameManager.instance.firstTimePlaying == false)
         {
             if (GameManager.instance == null) Instantiate(Resources.Load("GameManager"));
@@ -66,6 +76,8 @@ public class startDeathMenu : MonoBehaviour
 
     public void closeGame() // start death
     {
+        audioManager.PlaySFX(audioManager.buttonConfirm);
+
         SaveSystem.SaveGame();
 
         Application.Quit();
@@ -77,6 +89,8 @@ public class startDeathMenu : MonoBehaviour
 
     public void mainMenu() // death
     {
+        audioManager.PlaySFX(audioManager.buttonConfirm);
+
         SceneManager.LoadScene("meyerStart");
     }
 }

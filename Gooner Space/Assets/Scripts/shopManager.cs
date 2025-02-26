@@ -18,9 +18,16 @@ public class shopManager : MonoBehaviour
     public float priceTextPositionX;
     public float pricetextPositionY;
 
+    AudioManager audioManager;
+
     void Start()
     {
         HideUI();
+    }
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     void Update()
@@ -171,6 +178,7 @@ public class shopManager : MonoBehaviour
             }
             else
             {
+                audioManager.PlaySFX(audioManager.buyItem);
                 ApplyItemEffect(); 
                 PlayerStats.instance.PlayerMoney -= shopItem.price;
                 shopItem.IncreasePrice();

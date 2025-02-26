@@ -17,6 +17,13 @@ public class MineralUI : MonoBehaviour
     private float size;
     private float price;
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     public void Setup(string type, float size, float price)
     {
         mineralTypeBenis = type;
@@ -33,6 +40,7 @@ public class MineralUI : MonoBehaviour
 
     public void SellMineral()
     {
+        audioManager.PlaySFX(audioManager.buttonConfirm);
         Enum.TryParse(mineralTypeBenis, out MineralType mineralType);
         MiningSystem.instance.SellMineral(mineralType, size);
         Destroy(parentPanel);

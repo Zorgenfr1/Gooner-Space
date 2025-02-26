@@ -8,9 +8,17 @@ public class closeComputer : MonoBehaviour
     private string sceneToLoad;
     private bool enterAllowed;
 
+    AudioManager audioManager;
+
     private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
+    void Start()
+    {
+        audioManager.PlaySFX(audioManager.computerBootUp);
     }
 
     void Update()
@@ -30,6 +38,7 @@ public class closeComputer : MonoBehaviour
 
             if (enterAllowed && Input.GetMouseButtonDown(0))
             {
+                audioManager.PlaySFX(audioManager.computerShutDown);
                 SceneManager.LoadScene(sceneToLoad);
             }
         }
@@ -40,6 +49,13 @@ public class closeComputer : MonoBehaviour
                 enterAllowed = false;
                 isMouseOver = false;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            audioManager.PlaySFX(audioManager.computerShutDown);
+            sceneToLoad = "FrodeMaster";
+            SceneManager.LoadScene(sceneToLoad);
         }
     }
 

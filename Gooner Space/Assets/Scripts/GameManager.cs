@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public bool firstTimePlaying = true;
     public float highscore = 0f;
 
+    AudioManager audioManager;
+
     private void Awake()
     {
         if (instance == null)
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -72,53 +75,43 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
-
         if (!isGameOver)
         {
             if (!PlayerStats.instance.emergency && PlayerStats.instance.RemainingFuel <= 1)
             {
-                TimeTracker.instance.GameTime(Time.time.ToString());
-                TimeTracker.instance.DeathWay("Fuel");
-                isGameOver = true; 
-                if(PlayerStats.instance.PlayerScore > highscore)
-                {
-                    highscore = PlayerStats.instance.PlayerScore;
-                }
-
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-                PlayerExplosion playerExplosion = player.GetComponent<PlayerExplosion>();
-                if (playerExplosion != null)
-                {
-                    playerExplosion.TriggerDeath();
-                }
-
-
-                Invoke("LoadGameOverScene", 2f);
+                HandlePlayerDeath("Fuel");
             }
-
             else if (PlayerStats.instance.RemainingLife <= 0)
             {
-                TimeTracker.instance.GameTime(Time.time.ToString());
-                TimeTracker.instance.GameTime("Life");
-                isGameOver = true;
-                if (PlayerStats.instance.PlayerScore > highscore)
-                {
-                    highscore = PlayerStats.instance.PlayerScore;
-                }
-
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-                PlayerExplosion playerExplosion = player.GetComponent<PlayerExplosion>();
-                if (playerExplosion != null)
-                {
-                    playerExplosion.TriggerDeath(); 
-                }
-
-
-                Invoke("LoadGameOverScene", 2f);
+                HandlePlayerDeath("Life");
             }
         }
+    }
+
+    void HandlePlayerDeath(string deathCause)
+    {
+        audioManager.PlaySFX(audioManager.gameOver);
+        isGameOver = true;
+
+        if (PlayerStats.instance.PlayerScore > highscore)
+        {
+            highscore = PlayerStats.instance.PlayerScore;
+        }
+
+        PlayerStats.instance.SetDeathCause(deathCause); //test
+        PlaytestTimerSystem.SetDeathCause(deathCause); //test
+        PlaytestTimerSystem.SaveTimer(); //test
+        PlaytestTimerSystem.StopTimer(); //test
+        PlayerStats.instance.SaveStatsToCSV(); //test
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        PlayerExplosion playerExplosion = player.GetComponent<PlayerExplosion>();
+        if (playerExplosion != null)
+        {
+            playerExplosion.TriggerDeath();
+        }
+
+        Invoke("LoadGameOverScene", 2f);
     }
 
     void LoadGameOverScene()

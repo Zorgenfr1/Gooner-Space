@@ -1,6 +1,10 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
+using UnityEngine.Windows;
+using Input = UnityEngine.Input;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,8 +16,13 @@ public class UIManager : MonoBehaviour
     public TMP_Text sizeText;
     public TMP_Text fuelText;
     public TMP_Text lifeText;
-    public Image fuelImage;
-    public Image lifeImage;
+    public UnityEngine.UI.Image fuelImage;
+    public UnityEngine.UI.Image lifeImage;
+
+    public GameObject gameMenu;
+    private bool isMenuOpen = false;
+
+    AudioManager audioManager;
 
     private void Awake()
     {
@@ -33,6 +42,7 @@ public class UIManager : MonoBehaviour
             UpdateFuelUI(PlayerStats.instance.RemainingFuel);
             UpdateCargoUI(PlayerStats.instance.maxSize, PlayerStats.instance.shipCapacity);
         }
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
     private void Start()
     {
@@ -41,6 +51,21 @@ public class UIManager : MonoBehaviour
         UpdateLifeUI(PlayerStats.instance.RemainingLife);
         UpdateFuelUI(PlayerStats.instance.RemainingFuel);
         UpdateCargoUI(PlayerStats.instance.maxSize, PlayerStats.instance.shipCapacity);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isMenuOpen)
+            {
+                CloseMenu();
+            }
+            else
+            {
+                OpenMenu();
+            }
+        }
     }
 
     public void UpdateScoreUI(int score)
@@ -75,6 +100,40 @@ public class UIManager : MonoBehaviour
 	    messageText.text = message;
 	    messageText.gameObject.SetActive(true);
 	    Invoke(nameof(HideMessage), 2f);
+    }
+
+    void OpenMenu()
+    {
+        isMenuOpen = true;
+        Time.timeScale = 0f; 
+        gameMenu.SetActive(true); 
+    }
+
+    void CloseMenu()
+    {
+        isMenuOpen = false;
+        Time.timeScale = 1f; 
+        gameMenu.SetActive(false); 
+    }
+
+    public void SaveData()
+    {
+        audioManager.PlaySFX(audioManager.buttonConfirm);
+
+        SaveSystem.SaveGame();
+    }
+
+    public void closeGame() 
+    {
+        audioManager.PlaySFX(audioManager.buttonConfirm);
+
+        SaveSystem.SaveGame();
+
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     void HideMessage(){ messageText.gameObject.SetActive(false); }

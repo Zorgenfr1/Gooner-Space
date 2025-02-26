@@ -137,6 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f690cc99c3bca334982aa64c41e921ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: -5
-  points: -500
-  damage: 10
+  size: 0
+  points: -50
+  damage: 50
