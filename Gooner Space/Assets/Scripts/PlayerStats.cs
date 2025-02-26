@@ -48,7 +48,6 @@ public class PlayerStats : MonoBehaviour
     {
         PlayerScore += points;
         UIManager.instance.UpdateScoreUI(PlayerScore);
-        TimeTracker.instance.HighScore(PlayerScore.ToString());
     }
 
     public void TakeDamage(float damage)
@@ -72,13 +71,6 @@ public class PlayerStats : MonoBehaviour
     public void SetDeathCause(string cause) //test
     { 
         deathCause = cause;
-    }
-
-    public void SaveStatsToCSV() //test
-    {
-        string savePath = Application.persistentDataPath + "/playerStats.csv";
-        string data = $"{PlayerScore},{PlayerMoney},{RemainingLife},{RemainingFuel},{deathCause}";
-        File.WriteAllText(savePath, data);
     }
 
 
@@ -125,7 +117,7 @@ public class PlayerStats : MonoBehaviour
         maxSize = 20f;
         shipCapacity = 20f;
         noFuel = false;
-        emergency = false;
+        emergency = true;
         MineralNumbers = new int[4]; 
     }
 }

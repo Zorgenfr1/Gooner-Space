@@ -46,7 +46,6 @@ public static class PlaytestTimerSystem
     public static void StartTimer()
     {
         isTimerRunning = true;
-        Debug.Log("Timer Started!");
     }
 
     public static void StopTimer()

@@ -102,7 +102,6 @@ public class GameManager : MonoBehaviour
         PlaytestTimerSystem.SetDeathCause(deathCause); //test
         PlaytestTimerSystem.SaveTimer(); //test
         PlaytestTimerSystem.StopTimer(); //test
-        PlayerStats.instance.SaveStatsToCSV(); //test
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         PlayerExplosion playerExplosion = player.GetComponent<PlayerExplosion>();

@@ -30,7 +30,7 @@ public class ShopItem : MonoBehaviour
         switch (itemType)
         {
             case ShopItemType.Consumable:
-                return (itemLimit == 0 || amountBought < itemLimit) && playerMoney >= price;
+                return (itemLimit == 0 || PlayerStats.instance.emergency == false) && playerMoney >= price;
 
             case ShopItemType.Upgrade:
                 return playerMoney >= price;
